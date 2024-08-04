@@ -50,8 +50,15 @@ class Obfuscate:
             Returns:
                 Response: The modified response with obfuscated HTML content.
             """
-            if response.content_type == "text/html; charset=utf-8":
+
+            # Check if the response is an HTML document and contains content
+
+            if (
+                response.content_type == "text/html; charset=utf-8"
+                and response.get_data(as_text=True).strip()
+            ):
                 response.set_data(self.obfuscate_html(response.get_data(as_text=True)))
+
             return response
 
     def obfuscate_html(self, html_str: str) -> str:
